@@ -1,0 +1,89 @@
+{
+    "name": "houseofagile/BootstrapSinglePage",
+    "license": "Apache",
+    "authors": [
+        {
+            "name": "Jean-Christophe Meillaud",
+            "homepage": "http://www.houseofagile.com"
+        },
+        {
+            "name": "Community contributions",
+            "homepage": "http://github.com/HouseOfAgile/symfony-seed-booster/contributors"
+        }
+        ],
+    "type": "project",
+    "description": "Boostrap Single Page Symfony Seed",
+    "autoload": {
+        "psr-0": { "": "src/", "SymfonyStandard": "app/" }
+    },
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/symfony": "2.6.x-dev",
+        "doctrine/orm": "~2.2,>=2.2.3",
+        "doctrine/doctrine-bundle": "~1.2",
+        "twig/extensions": "~1.0",
+        "symfony/assetic-bundle": "~2.3",
+        "symfony/swiftmailer-bundle": "~2.3",
+        "symfony/monolog-bundle": "~2.4",
+        "sensio/distribution-bundle": "~3.0",
+        "sensio/framework-extra-bundle": "~3.0",
+        "incenteev/composer-parameter-handler": "~2.0",
+        "composer/composer": "1.0.*@dev",
+        "doctrine/doctrine-fixtures-bundle": "2.1.*@dev",
+
+        "dacorp/extra-bundle": "dev-master",
+        "knplabs/knp-menu": "dev-master as 1.1",
+        "knplabs/knp-menu-bundle": "dev-master as 1.1",
+        "jms/serializer-bundle": "dev-master as 0.12.0",
+        "jms/translation-bundle": "1.1.*",
+        "vipsoft/doctrine-data-fixtures-extension": "*",
+
+        "houseofagile/notification-bundle": "dev-master",
+        "houseofagile/single-page-boostrap-bundle": "0.8.*@dev"
+    },
+    "require-dev": {
+        "sensio/generator-bundle": "~2.3"
+    },
+    "scripts": {
+        "post-root-package-install": [
+            "SymfonyStandard\\Composer::hookRootPackageInstall"
+        ],
+        "post-install-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Mopa\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::postInstallSymlinkTwitterBootstrap",
+            "HOA\\Bundle\\HOASinglePageBundle\\Composer\\ScriptHandler::postInstallSymlinkStartBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles"
+        ],
+        "post-update-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Mopa\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::postInstallSymlinkTwitterBootstrap",
+            "HOA\\Bundle\\HOASinglePageBundle\\Composer\\ScriptHandler::postInstallSymlinkStartBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles"
+        ]
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "symfony-app-dir": "app",
+        "symfony-bin-dir": "bin",
+        "symfony-var-dir": "var",
+        "symfony-web-dir": "web",
+        "symfony-assets-install": "relative",
+        "incenteev-parameters": {
+            "file": "app/config/parameters.yml"
+        },
+        "branch-alias": {
+            "dev-master": "2.6-dev"
+        }
+    }
+}

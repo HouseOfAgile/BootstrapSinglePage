@@ -1,0 +1,167 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: @DacorpExtraBundle/Resources/config/config.yml }
+    - { resource: @DacorpExtraBundle/Resources/config/services_twig.yml }
+    - { resource: @DacorpExtraBundle/Resources/config/services_helper.yml }
+
+parameters:
+    available_langs:
+        - de
+        - fr
+        - en
+    # set it to true to send sms, but be careful as it could cost ;)
+    send_sms: false
+
+framework:
+    #esi:             ~
+    translator:
+        enabled: true
+        fallback: en
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id:  ~
+    fragments:       ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    globals:
+        # global name of the application, ouput in twig {{application_name}}
+        main_domain: %main_domain%
+        application_name: %application_name%
+        version:          %version%
+        available_langs:  %available_langs%
+        fos_csrf_provider: "@form.csrf_provider"
+        facebook_app_id: %facebook_app_id%
+        twitter_widget_id: %twitter_widget_id%
+        twitter_default_account: %twitter_default_account%
+
+
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles:        [ HOASinglePageBundle, DacorpExtraBundle ]
+    #java: /usr/bin/java
+    filters:
+        cssrewrite: ~
+        yui_css:
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
+        yui_js:
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   "%database_driver%"
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+        # if using pdo_sqlite as your database driver, add the path in parameters.yml
+        # e.g. database_path: "%kernel.root_dir%/data/data.db3"
+        # path:     "%database_path%"
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        entity_managers:
+            default:
+                auto_mapping: true
+                dql:
+                    numeric_functions:
+                        rand:        Mapado\MysqlDoctrineFunctions\DQL\MysqlRand
+                        round:       Mapado\MysqlDoctrineFunctions\DQL\MysqlRound
+                    datetime_functions:
+                        date:        Mapado\MysqlDoctrineFunctions\DQL\MysqlDate
+                        date_format: Mapado\MysqlDoctrineFunctions\DQL\MysqlDateFormat
+                mappings:
+                    gedmo_translatable:
+                        type: annotation
+                        prefix: Gedmo\Translatable\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+                        alias: GedmoTranslatable # this one is optional and will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_translator:
+                        type: annotation
+                        prefix: Gedmo\Translator\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Entity"
+                        alias: GedmoTranslator # this one is optional and will default to the name set for the mapping
+                        is_bundle: false
+
+# Swiftmailer Configuration
+swiftmailer:
+    encryption: ssl
+    auth_mode:  login
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:     { type: memory }
+
+
+sensio_framework_extra:
+    view:    { annotations: false }
+    router:  { annotations: true }
+
+fos_user:
+    # Overwrite user class
+    firewall_name: main
+    # user class should be defined in the main app config file
+    user_class: Dacorp\ExtraBundle\Entity\User
+
+    service: ~
+
+mopa_bootstrap:
+    form:
+        templating: DacorpExtraBundle:Form:fields.html.twig
+        show_legend: false # default is true
+        show_child_legend: false # default is true
+        error_type: 'inline'
+        checkbox_label: widget
+    menu: ~
+    initializr:
+        meta:
+            title:        "Bootstrap Single Page Bundle"
+            description:  "Bootstrap Single Page Bundle in order to have a single page bootstrap skeleton based on symfony"
+            keywords:     "Twitter bootstrap, notification, symfony"
+            author_name:  "HouseOfAgile"
+            author_url:   "/human.txt"
+            nofollow:     false
+            noindex:      false
+        dns_prefetch:
+              - '//ajax.googleapis.com'
+        google:
+            wt: 'xxx'
+            analytics: 'UA-TOBEDEFINED-1'
+        diagnostic_mode: false
+
+hoa_notification:
+    sms_service:
+        active: false
+    mailer_service:
+        active: true
+        hoa_from_email: somemail@example.com
+        hoa_bcc_email: someothermail@example.com
+
+hoa_single_page:
+    data_conf_path: "%kernel.root_dir%/config/data-website/"
+    available_langs: "%available_langs%"
+    main_theme: "agency"

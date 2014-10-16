@@ -1,0 +1,2 @@
+hoa_singlepage_web_frontend_routes:
+    resource: "@HOASinglePageBundle/Resources/config/routing.yml"
